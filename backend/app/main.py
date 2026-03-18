@@ -8,6 +8,7 @@ from .core.database import Base, engine
 
 # Import routers
 from .employees.router import router as employee_router
+from .attendance.router import router as attendance_router
 
 # Import handlers
 from .core.handlers import (
@@ -45,3 +46,4 @@ app.add_exception_handler(Exception, generic_exception_handler)
 
 # Include routers
 app.include_router(employee_router)
+app.include_router(attendance_router)
