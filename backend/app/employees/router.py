@@ -29,10 +29,10 @@ def list_employees(
     return paginated_response(results, total, page, page_size)
 
 # Delete an employee by their unique employee ID
-@router.delete("/{employee_id}")
+@router.delete("/{employee_id}",)
 def delete_employee(
     employee_id: str,
     db: Session = Depends(get_db)
 ):
-    service.delete_employee_service(db, employee_id)
-    return success_response(message="Employee deleted successfully")
+    emp=service.delete_employee_service(db, employee_id)
+    return success_response(emp, "Employee deleted successfully")

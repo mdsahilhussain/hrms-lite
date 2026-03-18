@@ -15,3 +15,4 @@ class EmployeeResponse(EmployeeCreate):
 
     class Config:
         from_attributes = True
+
