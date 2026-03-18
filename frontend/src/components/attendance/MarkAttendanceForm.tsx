@@ -95,7 +95,10 @@ export default function MarkAttendanceForm() {
                 value={emp?.employee_id}
                 className="capitalize"
               >
-                {`(${emp?.employee_id}) ${emp?.full_name?.charAt(0).toUpperCase() + emp?.full_name?.slice(1)}`}
+                {`(${emp?.employee_id}) ${
+                  emp?.full_name?.charAt(0).toUpperCase() +
+                  emp?.full_name?.slice(1)
+                }`}
               </option>
             ))}
           </select>
@@ -135,14 +138,14 @@ export default function MarkAttendanceForm() {
                     handleStatusChange(status as "present" | "absent")
                   }
                   className={cn(
-                    "px-4 py-2 rounded-lg border focus-visible:ring-2 w-full",
+                    "px-4 py-2 rounded-lg border focus-visible:ring-2 w-full capitalize",
                     isActive
                       ? status === "present"
                         ? "bg-green-500 hover:bg-green-400"
                         : "bg-red-500 hover:bg-red-400"
                       : status === "present"
-                      ? "bg-green-200 hover:bg-green-300"
-                      : "bg-red-200 hover:bg-red-300"
+                      ? "bg-green-200 hover:bg-green-300 border[.8px] border-green-500 text-green-600!"
+                      : "bg-red-200 hover:bg-red-300 border[.8px] border-red-500 text-red-600!"
                   )}
                 >
                   {status}

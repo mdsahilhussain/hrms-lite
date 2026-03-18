@@ -2,27 +2,43 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { attendanceApi } from "../api/attendanceApi";
 import { toast } from "sonner";
 
-export const useAttendanceByDate = (date: string) => {
+// Attendance by Date
+export const useAttendanceByDate = (
+  date: string,
+  page = 1,
+  pageSize = 20
+) => {
   return useQuery({
-    queryKey: ["attendance_date", date],
-    queryFn: () => attendanceApi.getAttendanceByDate(date),
+    queryKey: ["attendance", "date", date, page, pageSize],
+    queryFn: () => attendanceApi.getAttendanceByDate(date, page, pageSize),
     enabled: !!date,
+
+    // clean response
+    select: (res) => res?.data || { results: [], pagination: {} },
   });
 };
 
+// Attendance by Employee (with pagination)
 export const useAttendanceByEmployeeId = (
   employee_id: string,
   page = 1,
   pageSize = 20
 ) => {
   return useQuery({
-    queryKey: ["attendance_employee", employee_id, page, pageSize],
+    queryKey: ["attendance", "employee", employee_id, page, pageSize],
     queryFn: () =>
       attendanceApi.getAttendanceByEmployeeId(employee_id, page, pageSize),
     enabled: !!employee_id,
+
+    // prevent UI flicker when page changes
+    placeholderData: (prev) => prev,
+
+    // clean response
+    select: (res) => res || { results: [], pagination: {} },
   });
 };
 
+// 🔹 Mark Attendance
 export const useMarkAttendance = () => {
   const queryClient = useQueryClient();
 
@@ -30,13 +46,10 @@ export const useMarkAttendance = () => {
     mutationFn: attendanceApi.markAttendance,
 
     onSuccess: (_, variables) => {
-      // variables = data passed to mutate()
+      // 🔥 invalidate ALL attendance-related queries
       queryClient.invalidateQueries({
-        queryKey: ["attendance_date"],
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: ["attendance_employee", variables.employee_id],
+        queryKey: ["attendance"],
+        refetchType: "active",
       });
 
       toast.success("Attendance marked successfully", {
@@ -51,10 +64,16 @@ export const useMarkAttendance = () => {
   });
 };
 
-export const useAllAttendance = () => {
+// 🔹 Attendance Summary (Dashboard)
+export const useAttendanceSummary = () => {
   return useQuery({
-    queryKey: ["all_attendance"],
-    queryFn: attendanceApi.getAllAttendance,
+    queryKey: ["attendance", "summary"],
+    queryFn: attendanceApi.getAllSummary,
+
+    // Cache summary for 5 minutes to reduce load on dashboard
     staleTime: 1000 * 60 * 5,
+
+    // clean response
+    select: (res) => res?.data || {},
   });
 };

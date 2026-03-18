@@ -1,9 +1,19 @@
+import Pagination from "./Pagination";
+
+interface PaginationData {
+  current_page: number;
+  total_pages: number;
+  next?: string | null;
+  previous?: string | null;
+}
 type TableProps = {
   headers: string[];
   children: React.ReactNode;
+  pagination?: PaginationData
+  setPage: (page: number) => void;
 };
 
-export default function Table({ headers, children }: TableProps) {
+export default function Table({ headers, children, pagination, setPage}: TableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse">
@@ -22,6 +32,13 @@ export default function Table({ headers, children }: TableProps) {
 
         <tbody>{children}</tbody>
       </table>
+      <Pagination
+        currentPage={pagination?.current_page || 1}
+        totalPages={pagination?.total_pages || 1}
+        hasNext={!!pagination?.next}
+        hasPrev={!!pagination?.previous}
+        onPageChange={setPage}
+      />
     </div>
   );
 }

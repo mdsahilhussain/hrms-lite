@@ -24,7 +24,7 @@ export default function Dashboard() {
 
       <EmployeeTable
         onViewAttendance={setSelectedEmployee}
-        selectedEmployee={selectedEmployee}
+        selectedEmployeeId={selectedEmployee?.employee_id as string}
       />
       <AttendanceTable selectedEmployee={selectedEmployee} />
     </div>

@@ -1,13 +1,19 @@
 import { useDeleteEmployee } from "../../hooks/useEmployees";
+import { cn } from "../../lib/utils";
 import type { Employee, EmployeeAttendanceInfo } from "../../types/employee";
 import Button from "../ui/Button";
 
 type Props = {
   employee: Employee;
+  selectedEmployeeId: string;
   onViewAttendance: (data: EmployeeAttendanceInfo) => void;
 };
 
-export default function EmployeeRow({ employee, onViewAttendance }: Props) {
+export default function EmployeeRow({
+  employee,
+  onViewAttendance,
+  selectedEmployeeId,
+}: Props) {
   const { mutate } = useDeleteEmployee();
 
   function handlerViewAttendance() {
@@ -17,10 +23,11 @@ export default function EmployeeRow({ employee, onViewAttendance }: Props) {
       email: employee.email,
     });
   }
+
   return (
     <tr className="border-b border-gray-100 text-sm">
       <td className="py-3">
-        <span className="w-fit h-fit p-1.5 bg-blue-200 rounded text-blue-600 font-semibold border-[.8px] border-blue-600">
+        <span className="w-fit h-fit p-1.5 bg-blue-100 rounded text-blue-600 font-semibold border-[.8px] border-blue-600">
           {employee.employee_id}
         </span>
       </td>
@@ -30,10 +37,16 @@ export default function EmployeeRow({ employee, onViewAttendance }: Props) {
 
       <td className="py-3 flex gap-2">
         <Button
-          className="bg-gray-400 hover:bg-gray-300"
+          className={cn(
+            "bg-gray-500 hover:bg-gray-400",
+            employee.employee_id === selectedEmployeeId &&
+              "bg-blue-500 hover:bg-blue-400"
+          )}
           onClick={handlerViewAttendance}
         >
-          View Attendance
+          {employee.employee_id === selectedEmployeeId
+            ? "Viewing"
+            : "View Attendance"}
         </Button>
 
         <Button

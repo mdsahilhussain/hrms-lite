@@ -4,11 +4,12 @@ import type { Employee, EmployeeAttendanceInfo } from "../../types/employee";
 import Card from "../ui/Card";
 import Table from "../ui/Table";
 import EmployeeRow from "./EmployeeRow";
+import { useState } from "react";
 
 export type EmployeeTableProps = {
-  onViewAttendance: (data: EmployeeAttendanceInfo) => void
-  selectedEmployee: EmployeeAttendanceInfo | null;
-}
+  onViewAttendance: (data: EmployeeAttendanceInfo) => void;
+  selectedEmployeeId: string;
+};
 
 function SkeletonRow() {
   return (
@@ -34,10 +35,15 @@ function SkeletonRow() {
 
 export default function EmployeeTable({
   onViewAttendance,
+  selectedEmployeeId,
 }: EmployeeTableProps) {
-  const { data, isLoading } = useEmployees();
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading } = useEmployees(page, 20);
 
+  console.log("Employee data:", data);
   const employees = data?.results || [];
+  console.log("Employees array:", employees);
+  const pagination = data?.pagination;
 
   return (
     <Card className="mt-8">
@@ -49,6 +55,8 @@ export default function EmployeeTable({
       {isLoading ? (
         <Table
           headers={["Employee ID", "Name", "Email", "Department", "Actions"]}
+          pagination={pagination}
+          setPage={setPage}
         >
           {Array.from({ length: 5 }).map((_, i) => (
             <SkeletonRow key={i} />
@@ -68,12 +76,15 @@ export default function EmployeeTable({
       ) : (
         <Table
           headers={["Employee ID", "Name", "Email", "Department", "Actions"]}
+          pagination={pagination}
+          setPage={setPage}
         >
           {employees?.map((emp: Employee) => (
             <EmployeeRow
               key={emp.employee_id as string}
               employee={emp as Employee}
               onViewAttendance={onViewAttendance}
+              selectedEmployeeId={selectedEmployeeId}
             />
           ))}
         </Table>

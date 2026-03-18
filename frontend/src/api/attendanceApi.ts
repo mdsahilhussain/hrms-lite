@@ -2,8 +2,8 @@ import type { Attendance } from "../types/attendance";
 import { api } from "./axios";
 
 export const attendanceApi = {
-  getAttendanceByDate: async (attendance_date: string) => {
-    const res = await api.get(`/attendance/date/${attendance_date}`);
+  getAttendanceByDate: async (attendance_date: string, page=1, pageSize=20) => {
+    const res = await api.get(`/attendance/date/${attendance_date}?page=${page}&page_size=${pageSize}`);
     return res.data;
   },
   getAttendanceByEmployeeId: async (
@@ -24,7 +24,7 @@ export const attendanceApi = {
     }
     return res.data;
   },
-  getAllAttendance: async () => {
+  getAllSummary: async () => {
     const res = await api.get("/attendance/summary");
     return res.data;
   },

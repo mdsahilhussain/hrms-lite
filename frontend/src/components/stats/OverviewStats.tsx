@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAllAttendance } from "../../hooks/useAttendance";
-import StatCard from "./StatCard";
 import { Users, NotepadText, UserCheck, UserMinus } from "lucide-react";
+
+import { useAttendanceSummary } from "../../hooks/useAttendance";
+import StatCard from "./StatCard";
 
 function SkeletonCard() {
   return (
@@ -14,27 +15,28 @@ function SkeletonCard() {
 }
 
 export default function OverviewStats() {
-  const { data, isLoading } = useAllAttendance();
-  const stat = data?.data || ({} as any);
+  const { data, isLoading } = useAttendanceSummary();
+  const stat = data || ({} as any);
+  console.log("OverviewStats data:", data);
 
   const statsConfig = [
-    { title: "Employees", value: stat.employees, Icon: Users },
+    { title: "Employees", value: stat.total_records, Icon: Users },
     {
       title: "Attendance Records",
-      value: stat.attendance_records,
+      value: stat.total_attendance,
       Icon: NotepadText,
     },
     {
-      title: "Present Entries",
-      value: stat.present_entries,
+      title: "Today Present",
+      value: stat.today_present,
       Icon: UserCheck,
       className: "text-green-500",
     },
     {
-      title: "Absent Entries",
-      value: stat.absent_entries,
+      title: "Today Absent",
+      value: stat.today_absent,
       Icon: UserMinus,
-        className: "text-red-500",
+      className: "text-red-500",
     },
   ];
 
