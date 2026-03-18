@@ -52,6 +52,10 @@ export default function AttendanceTable({
     (a: any) => a.status === "present"
   ).length;
 
+  const totalAbsent = filteredData?.filter(
+    (a: any) => a.status === "absent"
+  ).length;
+
   return (
     <Card className="mt-8">
       <div className="flex items-start justify-between mb-6 border-b-[.6px] pb-4 max-sm:flex-col max-sm:gap-4">
@@ -66,15 +70,27 @@ export default function AttendanceTable({
             ) : (
               "Selected employee"
             )}
-            attendance records view. Use the filter to narrow down by date.
+            attendance record view. Use the filter to narrow down by date.
           </p>
         </div>
-        <AttendanceFilter date={dateFilter} onDataChange={setDateFilter} />
+        <AttendanceFilter  key={selectedEmployee?.employee_id} date={dateFilter} onDataChange={setDateFilter} />
       </div>
-      <div className="mb-4 text-sm text-gray-600">
-        Total Present Days:
-        <span className="font-semibold">{totalPresent}</span>
-      </div>
+      {!isLoading && (
+        <div className="flex items-center gap-4 mb-6 max-sm:flex-col max-sm:items-start">
+          <p className="mb-4 text-sm text-gray-600">
+            Present:
+            <span className="font-semibold bg-green-200 text-green-600 border-[.8px] border-green-600 px-2 py-1 rounded ml-1">
+              {totalPresent}
+            </span>
+          </p>
+          <p className="mb-4 text-sm text-gray-600">
+            Absent:
+            <span className="font-semibold bg-red-200 text-red-600 border-[.8px] border-red-600 px-2 py-1 rounded ml-1">
+              {totalAbsent}
+            </span>
+          </p>
+        </div>
+      )}
 
       {isLoading ? (
         <Table

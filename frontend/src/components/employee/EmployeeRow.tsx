@@ -1,3 +1,4 @@
+import { Eye, EyeOff, Trash2 } from "lucide-react";
 import { useDeleteEmployee } from "../../hooks/useEmployees";
 import { cn } from "../../lib/utils";
 import type { Employee, EmployeeAttendanceInfo } from "../../types/employee";
@@ -38,23 +39,22 @@ export default function EmployeeRow({
       <td className="py-3 flex gap-2">
         <Button
           className={cn(
-            "bg-gray-500 hover:bg-gray-400",
+            "bg-gray-500 hover:bg-gray-400 flex items-center gap-1",
             employee.employee_id === selectedEmployeeId &&
               "bg-blue-500 hover:bg-blue-400"
           )}
           onClick={handlerViewAttendance}
         >
-          {employee.employee_id === selectedEmployeeId
-            ? "Viewing"
-            : "View"}
+          {employee.employee_id === selectedEmployeeId ? <EyeOff className="size-3"/> : <Eye className="size-3"/>}
+          {employee.employee_id === selectedEmployeeId ? "Viewing" : "View"}
         </Button>
         <Button
-          className="bg-red-500 hover:bg-red-600"
+          className="bg-red-500 hover:bg-red-600 flex items-center gap-1"
           onClick={() => {
             mutate(employee.employee_id as string);
           }}
         >
-          Delete
+         <Trash2 className="size-3"/> Delete
         </Button>
       </td>
     </tr>

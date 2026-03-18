@@ -20,8 +20,8 @@ export default function AttendanceRow({ record }: Props) {
           className={cn(
             "px-2 py-1 rounded text-sm capitalize",
             record.status === "present"
-              ? "bg-green-100 text-green-600 border[.8px] border-green-600"
-              : "bg-red-100 text-red-600 border[.8px] border-red-600"
+              ? "bg-green-100 text-green-600 border-[.8px] border-green-600"
+              : "bg-red-100 text-red-600 border-[.8px] border-red-600"
           )}
         >
           {record.status}

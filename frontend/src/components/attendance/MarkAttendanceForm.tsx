@@ -13,6 +13,7 @@ import { useMarkAttendance } from "../../hooks/useAttendance";
 import { useEmployees } from "../../hooks/useEmployees";
 import type { Employee } from "../../types/employee";
 import { cn } from "../../lib/utils";
+import { UserMinus2, UserPlus2 } from "lucide-react";
 
 export default function MarkAttendanceForm() {
   const {
@@ -138,7 +139,7 @@ export default function MarkAttendanceForm() {
                     handleStatusChange(status as "present" | "absent")
                   }
                   className={cn(
-                    "px-4 py-2 rounded-lg border focus-visible:ring-2 w-full capitalize",
+                    "px-4 py-2 rounded-lg border focus-visible:ring-2 w-full capitalize flex items-center justify-center gap-1",
                     isActive
                       ? status === "present"
                         ? "bg-green-500 hover:bg-green-400"
@@ -148,7 +149,7 @@ export default function MarkAttendanceForm() {
                       : "bg-red-200 hover:bg-red-300 border[.8px] border-red-500 text-red-600!"
                   )}
                 >
-                  {status}
+                 {status === "present" ? <UserPlus2 className="size-4"/> : <UserMinus2 className="size-4"/>} {status}
                 </Button>
               );
             })}
