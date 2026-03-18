@@ -25,7 +25,7 @@ export default function EmployeeRow({
   }
 
   return (
-    <tr className="border-b border-gray-100 text-sm">
+    <tr className="border-b border-gray-100 text-xs md:text-sm">
       <td className="py-3">
         <span className="w-fit h-fit p-1.5 bg-blue-100 rounded text-blue-600 font-semibold border-[.8px] border-blue-600">
           {employee.employee_id}
@@ -46,9 +46,8 @@ export default function EmployeeRow({
         >
           {employee.employee_id === selectedEmployeeId
             ? "Viewing"
-            : "View Attendance"}
+            : "View"}
         </Button>
-
         <Button
           className="bg-red-500 hover:bg-red-600"
           onClick={() => {

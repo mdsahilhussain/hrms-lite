@@ -54,20 +54,19 @@ export default function AttendanceTable({
 
   return (
     <Card className="mt-8">
-      <div className="flex items-start justify-between mb-6 border-b-[.6px] pb-4">
+      <div className="flex items-start justify-between mb-6 border-b-[.6px] pb-4 max-sm:flex-col max-sm:gap-4">
         <div className="flex-1">
           <h2 className="text-xl font-semibold">Attendance Records</h2>
-          <p className="text-gray-500 text-sm mt-2">
-            View attendance records of
+          <p className="text-gray-500 text-sm mt-2 wrap-break-word">
             {selectedEmployee ? (
-              <span className="bg-blue-500 px-2 py-1 text-white mx-1 rounded">
+              <span className="bg-blue-500 px-2 py-1 text-white mx-1 rounded w-fit h-fit">
                 {selectedEmployee?.full_name}{" "}
-                {`(${selectedEmployee?.employee_id})`}.
+                {`(${selectedEmployee?.employee_id})`}
               </span>
             ) : (
-              "the selected employee."
+              "Selected employee"
             )}
-            Use the filter to narrow down by date.
+            attendance records view. Use the filter to narrow down by date.
           </p>
         </div>
         <AttendanceFilter date={dateFilter} onDataChange={setDateFilter} />

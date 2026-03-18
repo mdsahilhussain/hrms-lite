@@ -69,7 +69,7 @@ export default function EmployeeTable({
             No employees found
           </p>
           <p className="text-gray-400">
-            It looks like there are no empxloyees in the system yet. Please add
+            It looks like there are no employees in the system yet. Please add
             employees to view their attendance records.
           </p>
         </div>

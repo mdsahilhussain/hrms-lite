@@ -9,29 +9,36 @@ interface PaginationData {
 type TableProps = {
   headers: string[];
   children: React.ReactNode;
-  pagination?: PaginationData
+  pagination?: PaginationData;
   setPage: (page: number) => void;
 };
 
-export default function Table({ headers, children, pagination, setPage}: TableProps) {
+export default function Table({
+  headers,
+  children,
+  pagination,
+  setPage,
+}: TableProps) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="text-left border-b border-gray-200">
-            {headers.map((header, index) => (
-              <th
-                key={index}
-                className="py-3 text-sm font-semibold text-gray-600"
-              >
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
+    <>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="text-left border-b border-gray-200">
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  className="py-3 text-sm font-semibold text-gray-600"
+                >
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
 
-        <tbody>{children}</tbody>
-      </table>
+          <tbody>{children}</tbody>
+        </table>
+      </div>
       <Pagination
         currentPage={pagination?.current_page || 1}
         totalPages={pagination?.total_pages || 1}
@@ -39,6 +46,6 @@ export default function Table({ headers, children, pagination, setPage}: TablePr
         hasPrev={!!pagination?.previous}
         onPageChange={setPage}
       />
-    </div>
+    </>
   );
 }
