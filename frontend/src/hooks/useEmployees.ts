@@ -43,7 +43,6 @@ export const useAddEmployee = () => {
     },
 
     onError: (error: unknown) => {
-      console.error("Error adding employee:", error);
       toast.error("Error adding employee", {
         description: getErrorMessage(error),
       });
@@ -58,8 +57,15 @@ export const useDeleteEmployee = () => {
     mutationFn: employeeApi.deleteEmployee,
 
     onSuccess: () => {
+      // Invalidate employee list to remove the deleted employee
       queryClient.invalidateQueries({
         queryKey: ["employees"],
+        refetchType: "active",
+      });
+
+      // Refetch attendance summary to reflect new employee
+      queryClient.invalidateQueries({
+        queryKey: ["attendance"],
         refetchType: "active",
       });
 
