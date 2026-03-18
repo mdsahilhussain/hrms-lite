@@ -1,18 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { employeeApi } from "../api/employeeApi";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
-
-const getErrorMessage = (error: unknown) => {
-  if (error instanceof AxiosError) {
-    return (
-      error.response?.data?.message ||
-      error.response?.data?.detail ||
-      error.message
-    );
-  }
-  return "Unexpected error occurred";
-};
+import { getErrorMessage } from "../lib/utils";
 
 export const useEmployees = (page = 1, pageSize = 20) => {
   return useQuery({
@@ -54,6 +43,7 @@ export const useAddEmployee = () => {
     },
 
     onError: (error: unknown) => {
+      console.error("Error adding employee:", error);
       toast.error("Error adding employee", {
         description: getErrorMessage(error),
       });

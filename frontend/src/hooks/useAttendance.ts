@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { attendanceApi } from "../api/attendanceApi";
 import { toast } from "sonner";
+import { getErrorMessage } from "../lib/utils";
 
 // Attendance by Date
 export const useAttendanceByDate = (
@@ -57,9 +58,11 @@ export const useMarkAttendance = () => {
       });
     },
 
-    onError: (error) => {
+    onError: (error: unknown) => {
       console.error("Error marking attendance:", error);
-      toast.error("Error marking attendance. Please try again.");
+      toast.error("Error marking attendance.", {
+        description: getErrorMessage(error),
+      });
     },
   });
 };

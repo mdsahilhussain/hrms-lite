@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function Button({ className, ...props }: ButtonProps) {
+export default function Button({ className, children, ...props }: ButtonProps) {
   return (
     <button
       type="button"
@@ -13,6 +13,8 @@ export default function Button({ className, ...props }: ButtonProps) {
         "disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:opacity-65",
         className
       )}
-    />
+    >
+      {children}
+    </button>
   );
 }
