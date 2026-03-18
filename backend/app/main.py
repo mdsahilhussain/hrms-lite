@@ -6,6 +6,9 @@ from sqlalchemy.exc import IntegrityError
 from .core.config import settings
 from .core.database import Base, engine
 
+# Import routers
+from .employees.router import router as employee_router
+
 # Import handlers
 from .core.handlers import (
     app_exception_handler,
@@ -39,3 +42,6 @@ app.add_exception_handler(AppException, app_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(IntegrityError, integrity_exception_handler)
 app.add_exception_handler(Exception, generic_exception_handler)
+
+# Include routers
+app.include_router(employee_router)
