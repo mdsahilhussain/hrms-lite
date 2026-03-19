@@ -1,6 +1,8 @@
 from sqlite3 import IntegrityError
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 from . import repository
+from app.attendance.models import Attendance
 from app.core.errors import AppException
 
 # Service layer functions for handling business logic related to Employee operations
@@ -52,5 +54,15 @@ def delete_employee_service(db: Session, employee_id: str):
 
     if not emp:
         raise AppException(404, f"Employee with ID '{employee_id}' not found")
+    
+    try:
+        # Delete attendance
+        db.query(Attendance).filter(Attendance.employee_id == emp.employee_id).delete(synchronize_session=False)
+        # Delete employee
+        db.delete(emp)
+        db.commit()
+    except SQLAlchemyError:
+        db.rollback()
+        raise
 
     return emp
