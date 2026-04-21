@@ -21,21 +21,26 @@ from .core.handlers import (
 # Import custom exception
 from .core.errors import AppException
 
-# Create tables
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title="HRMS Lite API",
     version="1.0.0"
 )
+
+# Create tables
+@app.on_event("startup")
+def on_startup():
+    with engine.connect() as conn:
+        pass
+        
+    Base.metadata.create_all(bind=engine)
 
 # CORS (Good as is)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Register Exception Handlers (CRITICAL)
